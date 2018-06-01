@@ -1,17 +1,17 @@
 package skrelpoid.superfastmode.patches;
 
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 
 //@formatter:off
+// These methods/Patches seem not to be working! They are making things worse
+// For now I've disabled them
 public class LwjglInputPatches {
 
 	// If the current input request is from SFM, do not update time
-	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "update")
+//	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "update")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
@@ -27,7 +27,7 @@ public class LwjglInputPatches {
 
 	// If the current input request is from SFM, do not alter value off
 	// justTouched
-	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "updateMouse")
+//	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "updateMouse")
 	public static class MousePatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
@@ -43,7 +43,7 @@ public class LwjglInputPatches {
 
 	// If the current input request is from SFM, do not alter value off
 	// justKeyPressed
-	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "updateKeyboard")
+//	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "updateKeyboard")
 	public static class KeyboardPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {

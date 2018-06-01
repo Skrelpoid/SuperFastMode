@@ -13,7 +13,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglInput;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import com.megacrit.cardcrawl.core.Settings;
 
 import basemod.BaseMod;
 
@@ -26,25 +25,30 @@ public class SuperFastMode {
 
 	public static final Logger logger = LogManager.getLogger(SuperFastMode.class.getName());
 
-	public static float deltaMultiplier = 1.5f;
-	public static int additionalRenders = 1;
+	public static float deltaMultiplier = 3;
+	public static int additionalRenders = 0;
 	public static Field deltaField;
 	public static Field keyField;
 	public static Method inputProcessing;
 	public static boolean isDeltaMultiplied = true;
-	public static boolean isAcceleratedFPS = true;
+	public static boolean isAcceleratedFPS = false;
 	public static boolean isInstantLerp = true;
 	public static SpireConfig config;
 
 	// if the current request for the input to update is called from
 	// SuperFastMode. Used in LwjglInputPatches to avoid conflicts
+	// and in AbstractDungeonPatches to avoid the timer speeding up
 	public static boolean isSFMInput = false;
 
-	// FIX: Mouse clicks (especially on the map) are sometimes not registered
+	// FIX: Input still sometimes is not registered when additionalRenders > 0.
+	// Is this just caused by lag?
+
+	// TODO player and monster idle should not be affected by multiplied delta
+	// TODO UI rendering should not be affected by multiplied delta
+	// FIX Maybe remove fpsAcceleration
 
 	public static void initialize() {
 		logger.info("Initializing SuperFastMode");
-		Settings.isDebug = true; // TODO remove
 		BaseMod.subscribe(new UIManager());
 		try {
 			config = new SpireConfig(MOD_NAME, MOD_NAME + "Config");
@@ -98,6 +102,11 @@ public class SuperFastMode {
 
 	public static float getMultDelta() {
 		return getMultDelta(Gdx.graphics);
+	}
+
+	// Gets current delta but can't be higher than max
+	public static float getDelta(float max) {
+		return Math.min(max, getDelta());
 	}
 
 	public static float getDelta(Object graphics) {

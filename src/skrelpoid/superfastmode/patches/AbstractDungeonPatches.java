@@ -9,7 +9,9 @@ import javassist.expr.MethodCall;
 public class AbstractDungeonPatches {
 	//@formatter:off
 
-	// Makes time not increase by multiplier
+	// Makes time not increase by multiplier.
+ //	Also, the SFMInput Check makes sure that on renders that come from SFM
+ //	Do not increase the timer as this would count it multiple times per frame
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "update")
 	public static class TimerPatch {
 		public static ExprEditor Instrument() {
@@ -22,7 +24,7 @@ public class AbstractDungeonPatches {
 								+ "{"
 								+ "  $_ = skrelpoid.superfastmode.SuperFastMode.getDelta();"
 								+ "} else {"
-								+ "   $_ = 0; "
+								+ "  $_ = 0; "
 								+ "} }");
 					}
 				}
