@@ -144,17 +144,20 @@ public class SuperFastMode {
 	}
 
 	public static boolean isKeyJustPressed() {
-		System.out.println("SuperFastMode.isKeyJustPressed()");
-		try {
-			return keyField.getBoolean(Gdx.input);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return false;
+		if (isSFMInput) {
+			try {
+				return keyField.getBoolean(Gdx.input);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
+		return false;
 	}
 
 	public static boolean isJustTouched() {
-		System.out.println("SuperFastMode.isJustTouched()");
+		if (isSFMInput) {
+			return Gdx.input.justTouched();
+		}
 		return false;
 	}
 
