@@ -43,6 +43,7 @@ public class SuperFastMode {
 	// FIX: Input still sometimes is not registered when additionalRenders > 0.
 	// Is this just caused by lag?
 
+	// TODO Add Changelog
 	// TODO player and monster idle should not be affected by multiplied delta
 	// TODO UI rendering should not be affected by multiplied delta
 	// FIX Maybe remove fpsAcceleration

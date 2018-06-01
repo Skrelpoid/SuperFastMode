@@ -67,7 +67,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ModLabeledToggleButton deltaToggle() {
 		final float x = 350;
-		final float y = 420;
+		final float y = 690;
 		ModLabeledToggleButton fpsToggle = new ModLabeledToggleButton("Multiply Delta", x, y, Color.WHITE,
 				FontHelper.buttonLabelFont, SuperFastMode.isDeltaMultiplied, panel, (l) -> {
 				}, (b) -> updateDeltaToggle(b));
@@ -82,7 +82,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ModLabeledToggleButton skipToggle() {
 		final float x = 350;
-		final float y = 690;
+		final float y = 420;
 		ModLabeledToggleButton skipToggle = new ModLabeledToggleButton("Skip Some Animations", x, y, Color.WHITE,
 				FontHelper.buttonLabelFont, SuperFastMode.isInstantLerp, panel, (l) -> {
 				}, (b) -> updateSkipToggle(b));
