@@ -1,11 +1,15 @@
 package skrelpoid.superfastmode.patches;
 
+import com.badlogic.gdx.backends.lwjgl.LwjglInput;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 
+import basemod.ReflectionHacks;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
+import skrelpoid.superfastmode.SuperFastMode;
 
 //@formatter:off
 public class LwjglInputPatches {
@@ -39,6 +43,14 @@ public class LwjglInputPatches {
 					}
 				}
 			};
+		}
+	}
+
+	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglInput", method = "updateMouse")
+	public static class MousePatch2 {
+		@SpireInsertPatch(rloc = 1)
+		public static void Insert(LwjglInput input) {
+			ReflectionHacks.setPrivate(input, input.getClass(), "justTouched", SuperFastMode.isJustTouched());
 		}
 	}
 
