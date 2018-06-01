@@ -5,6 +5,10 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 
 import skrelpoid.superfastmode.SuperFastMode;
 
+// The methods patched here normally return a value between start and target.
+// If start == target, these methods all return target. This makes many things instant
+// E.G. Cards that animate from your deck to your hand will be instantly in
+// your hand because currentX will be set to targetX instantly
 public class MathHelperPatches {
 
 	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "mouseLerpSnap")

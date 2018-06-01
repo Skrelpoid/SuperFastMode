@@ -5,6 +5,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 
 import skrelpoid.superfastmode.SuperFastMode;
 
+// This is only backup as Slay the Spire currently uses LwjglApplication
 public class LwjglAWTCanvasPatches {
 	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas", method = "render")
 	public static class AccelerateFPS {

@@ -18,12 +18,17 @@ import basemod.interfaces.PostInitializeSubscriber;
 
 public class UIManager implements PostInitializeSubscriber {
 	public static final String UNSAVED_SETTINGS = "Click Button to Save Settings:";
+	public static final int FPS_SLIDER_MULTI = 5;
+	public static final int DELTA_SLIDER_MULTI = 20;
+	public static final float MIN_DELTA = 0.05f;
 
 	public static ModPanel panel;
 	public static ModLabel saveFeedback;
+	public static boolean speedUpdated;
 
 	@Override
 	public void receivePostInitialize() {
+		speedUpdated = true;
 		buildUI();
 		BaseMod.registerModBadge(new Texture("img/modBadge.png"), SuperFastMode.MOD_NAME, SuperFastMode.AUTHOR,
 				SuperFastMode.DESCRIPTION, panel);
@@ -42,80 +47,83 @@ public class UIManager implements PostInitializeSubscriber {
 		panel.addUIElement(skipInfo());
 		panel.addUIElement(fpsInfo());
 		panel.addUIElement(deltaInfo());
-	}
-
-	private static void doNothing() {
+		panel.addUIElement(speedInfo());
 	}
 
 	private static ModLabeledToggleButton fpsToggle() {
 		final float x = 350;
 		final float y = 550;
 		ModLabeledToggleButton fpsToggle = new ModLabeledToggleButton("Accelerate FPS", x, y, Color.WHITE,
-				FontHelper.buttonLabelFont, SuperFastMode.isAcceleratedFPS, panel, (l) -> doNothing(),
-				(b) -> updateFPSToggle(b));
+				FontHelper.buttonLabelFont, SuperFastMode.isAcceleratedFPS, panel, (l) -> {
+				}, (b) -> updateFPSToggle(b));
 		return fpsToggle;
 	}
 
 	private static void updateFPSToggle(ModToggleButton b) {
 		SuperFastMode.isAcceleratedFPS = b.enabled;
 		SuperFastMode.logger.info("Toggling accelerate FPS to " + b.enabled);
+		speedUpdated = true;
 	}
 
 	private static ModLabeledToggleButton deltaToggle() {
 		final float x = 350;
-		final float y = 420;
+		final float y = 690;
 		ModLabeledToggleButton fpsToggle = new ModLabeledToggleButton("Multiply Delta", x, y, Color.WHITE,
-				FontHelper.buttonLabelFont, SuperFastMode.isDeltaMultiplied, panel, (l) -> doNothing(),
-				(b) -> updateDeltaToggle(b));
+				FontHelper.buttonLabelFont, SuperFastMode.isDeltaMultiplied, panel, (l) -> {
+				}, (b) -> updateDeltaToggle(b));
 		return fpsToggle;
 	}
 
 	private static void updateDeltaToggle(ModToggleButton b) {
 		SuperFastMode.isDeltaMultiplied = b.enabled;
 		SuperFastMode.logger.info("Toggling multiply delta to " + b.enabled);
-		saveFeedback.text = UNSAVED_SETTINGS;
+		speedUpdated = true;
 	}
 
 	private static ModLabeledToggleButton skipToggle() {
 		final float x = 350;
-		final float y = 690;
+		final float y = 420;
 		ModLabeledToggleButton skipToggle = new ModLabeledToggleButton("Skip Some Animations", x, y, Color.WHITE,
-				FontHelper.buttonLabelFont, SuperFastMode.isInstantLerp, panel, (l) -> doNothing(),
-				(b) -> updateSkipToggle(b));
+				FontHelper.buttonLabelFont, SuperFastMode.isInstantLerp, panel, (l) -> {
+				}, (b) -> updateSkipToggle(b));
 		return skipToggle;
 	}
 
 	private static void updateSkipToggle(ModToggleButton b) {
 		SuperFastMode.isInstantLerp = b.enabled;
 		SuperFastMode.logger.info("Toggling skip animations (lerp) to " + b.enabled);
-		saveFeedback.text = UNSAVED_SETTINGS;
+		speedUpdated = true;
+
 	}
 
 	private static ModSlider fpsSlider() {
 		final float x = 530;
-		final float y = 580;
-		ModSlider fpsSlider = new ModSlider("Multiply FPS by ", x, y, 5, "", panel, (s) -> updateFpsSlider(s));
-		fpsSlider.setValue((SuperFastMode.additionalRenders + 1) * 0.1f);
+		final float y = 460;
+		ModSlider fpsSlider = new ModSlider("Multiply FPS by ", x, y, FPS_SLIDER_MULTI, "", panel,
+				(s) -> updateFpsSlider(s));
+		fpsSlider.setValue((SuperFastMode.additionalRenders + 1) / (float) FPS_SLIDER_MULTI);
 		return fpsSlider;
 	}
 
 	private static void updateFpsSlider(ModSlider s) {
-		// rounding and minus 1
-		SuperFastMode.additionalRenders = (int) (s.value * 5 - 0.5f);
-		saveFeedback.text = UNSAVED_SETTINGS;
+		// AdditionalRenders should never be less than 0;
+		SuperFastMode.additionalRenders = Math.max((int) (s.value * FPS_SLIDER_MULTI - 0.5f), 0);
+		speedUpdated = true;
 	}
 
 	private static ModSlider deltaSlider() {
 		final float x = 530;
-		final float y = 460;
-		ModSlider deltaSlider = new ModSlider("Multiply Delta by ", x, y, 500, "%", panel, (s) -> updateDeltaSlider(s));
-		deltaSlider.setValue(SuperFastMode.deltaMultiplier * 0.2f);
+		final float y = 580;
+		ModSlider deltaSlider = new ModSlider("Multiply Delta by ", x, y, DELTA_SLIDER_MULTI * 100, "%", panel,
+				(s) -> updateDeltaSlider(s));
+		deltaSlider.setValue(SuperFastMode.deltaMultiplier * 1 / DELTA_SLIDER_MULTI);
 		return deltaSlider;
 	}
 
 	private static void updateDeltaSlider(ModSlider s) {
-		SuperFastMode.deltaMultiplier = s.value * 5;
-		saveFeedback.text = UNSAVED_SETTINGS;
+		// deltaMultiplier should never be 0, so never be > MIN_DELTA
+		SuperFastMode.deltaMultiplier = Math.max(s.value * DELTA_SLIDER_MULTI, MIN_DELTA);
+		speedUpdated = true;
 	}
 
 	private static ModButton saveButton() {
@@ -139,7 +147,8 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabel saveFeedback() {
 		final float x = 430;
 		final float y = 315;
-		saveFeedback = new ModLabel(UNSAVED_SETTINGS, x, y, panel, (l) -> doNothing());
+		saveFeedback = new ModLabel(UNSAVED_SETTINGS, x, y, panel, (l) -> {
+		});
 		return saveFeedback;
 	}
 
@@ -147,31 +156,56 @@ public class UIManager implements PostInitializeSubscriber {
 		final float x = 1050;
 		final float y = 700;
 		ModLabel sliderInfo = new ModLabel("Turn everything on the left off before sliding!", x, y,
-				FontHelper.tipBodyFont, panel, (l) -> doNothing());
+				FontHelper.tipBodyFont, panel, (l) -> {
+				});
 		return sliderInfo;
 	}
 
 	private static ModLabel skipInfo() {
 		final float x = 350;
 		final float y = 750;
-		ModLabel skipInfo = new ModLabel("Recommended! Can glitch out Cursor and Cards if off.", x, y,
-				FontHelper.tipBodyFont, panel, (l) -> doNothing());
+		ModLabel skipInfo = new ModLabel("Makes some Animations instant", x, y, FontHelper.tipBodyFont, panel, (l) -> {
+		});
 		return skipInfo;
 	}
 
 	private static ModLabel fpsInfo() {
 		final float x = 350;
-		final float y = 610;
-		ModLabel fpsInfo = new ModLabel("Increases FPS. Can cause lag! (Disable Vsync for best results)", x, y,
-				FontHelper.tipBodyFont, panel, (l) -> doNothing());
+		final float y = 470;
+		ModLabel fpsInfo = new ModLabel("EXPERIMENTAL! Can cause lag and delay Input! (Disable Vsync for best results)",
+				x, y, FontHelper.tipBodyFont, panel, (l) -> {
+				});
 		return fpsInfo;
 	}
 
 	private static ModLabel deltaInfo() {
 		final float x = 350;
-		final float y = 470;
-		ModLabel deltaInfo = new ModLabel("Makes the game think more time has elapsed.", x, y, FontHelper.tipBodyFont,
-				panel, (l) -> doNothing());
+		final float y = 610;
+		ModLabel deltaInfo = new ModLabel("Makes the game think more time has elapsed. Doesn't cause lag!", x, y,
+				FontHelper.tipBodyFont, panel, (l) -> {
+				});
 		return deltaInfo;
 	}
+
+	private static ModLabel speedInfo() {
+		final float x = 1050;
+		final float y = 315;
+		ModLabel speedInfo = new ModLabel("", x, y, FontHelper.buttonLabelFont, panel, (l) -> updateSpeedInfo(l));
+		return speedInfo;
+	}
+
+	private static void updateSpeedInfo(ModLabel l) {
+		if (speedUpdated) {
+			speedUpdated = false;
+			saveFeedback.text = UNSAVED_SETTINGS;
+			l.text = "Game Speed is " + (int) (calculateSpeed() * 100 + 0.5f) + "%";
+		}
+	}
+
+	private static float calculateSpeed() {
+		int fpsAccelerated = SuperFastMode.isAcceleratedFPS ? SuperFastMode.additionalRenders + 1 : 1;
+		float deltaMult = SuperFastMode.isDeltaMultiplied ? SuperFastMode.deltaMultiplier : 1;
+		return fpsAccelerated * deltaMult;
+	}
+
 }
