@@ -22,15 +22,15 @@ public class SuperFastMode {
 
 	public static final Logger logger = LogManager.getLogger(SuperFastMode.class.getName());
 
-	public static float deltaMultiplier = 3;
+	public static float deltaMultiplier = 2;
 	public static Field deltaField;
 	public static boolean isDeltaMultiplied = true;
 	public static boolean isInstantLerp = true;
+	public static boolean dontSpeedUpCreatures = true;
 	public static SpireConfig config;
 
 	// if the current request for the input to update is called from
 
-	// TODO Add Changelog
 	// TODO player and monster idle should not be affected by multiplied delta
 	// TODO UI rendering should not be affected by multiplied delta
 
@@ -65,12 +65,14 @@ public class SuperFastMode {
 	private static void loadConfig() {
 		isDeltaMultiplied = config.getBool("isDeltaMultiplied");
 		isInstantLerp = config.getBool("isInstantLerp");
+		dontSpeedUpCreatures = config.getBool("dontSpeedUpCreatures");
 		deltaMultiplier = config.getFloat("deltaMultiplier");
 	}
 
 	public static void writeConfig() {
 		config.setBool("isDeltaMultiplied", isDeltaMultiplied);
 		config.setBool("isInstantLerp", isInstantLerp);
+		config.setBool("dontSpeedUpCreatures", dontSpeedUpCreatures);
 		config.setFloat("deltaMultiplier", deltaMultiplier);
 	}
 
@@ -81,6 +83,11 @@ public class SuperFastMode {
 
 	public static float getMultDelta() {
 		return getMultDelta(Gdx.graphics);
+	}
+
+	// Gets multiplied delta but can't be higher than max
+	public static float getMultDeltaDelta(float max) {
+		return Math.min(max, getMultDelta());
 	}
 
 	// Gets current delta but can't be higher than max
