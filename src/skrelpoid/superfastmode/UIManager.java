@@ -130,11 +130,11 @@ public class UIManager implements PostInitializeSubscriber {
 		final float x = 900;
 		final float y = 290;
 		ModButton saveButton = new ModButton(x, y, new Texture(Gdx.files.internal("img/save.png")), panel,
-				(b) -> updateSaveButton(b));
+				(b) -> updateSaveButton());
 		return saveButton;
 	}
 
-	private static void updateSaveButton(ModButton b) {
+	private static void updateSaveButton() {
 		try {
 			SuperFastMode.writeConfig();
 			SuperFastMode.config.save();
