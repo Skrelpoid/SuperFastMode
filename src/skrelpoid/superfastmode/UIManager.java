@@ -79,7 +79,7 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabeledToggleButton creatureToggle() {
 		final float x = 750;
 		final float y = 690;
-		return new ModLabeledToggleButton("Don't speed up creatures animations (Recommended)", x, y, Color.WHITE,
+		return new ModLabeledToggleButton("Don't speed up creature's animations (Recommended)", x, y, Color.WHITE,
 				FontHelper.tipBodyFont, SuperFastMode.dontSpeedUpCreatures, panel, l -> {
 				}, UIManager::updateCreatureToggle);
 	}
