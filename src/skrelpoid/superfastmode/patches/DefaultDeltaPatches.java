@@ -13,9 +13,18 @@ public class DefaultDeltaPatches {
 		@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "update")
 		// Fixes mouse events not registering on map
 		@SpirePatch(cls = "com.megacrit.cardcrawl.screens.DungeonMapScreen", method = "updateMouse")
-        // Next 2 prevent some flickering
+        // Display SpeechBubbles long enough to read
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "updateScale")
+        // Next prevent some flickering
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.DynamicBanner", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.TintEffect", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.CancelButton", method = "updateGlow")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton", method = "updateGlow")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.ConfirmButton", method = "updateGlow")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.EndTurnButton", method = "glow")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton", method = "updateGlow")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.ProceedButton", method = "update")
 		public static class DeltaPatch {
 			public static ExprEditor Instrument() {
 				return new ExprEditor() {
