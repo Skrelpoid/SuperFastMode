@@ -12,12 +12,12 @@ import javassist.expr.MethodCall;
 public class DefaultDeltaPatches {
 	//@formatter:off
 
-
 		// Makes time not increase by multiplier.
 		@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "update")
 		// Fixes mouse events not registering on map
 		@SpirePatch(cls = "com.megacrit.cardcrawl.screens.DungeonMapScreen", method = "updateMouse")
         // Display SpeechBubbles long enough to read
+        // Known issue: text stays longer than bubble. Probably leave it like that
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.SpeechWord", method = "applyEffects")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "updateScale")
@@ -39,6 +39,14 @@ public class DefaultDeltaPatches {
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton", method = "updateGlow")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.ProceedButton", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.map.MapRoomNode", method = "oscillateColor")
+        // Fixes Intents
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.BobEffect", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "updateIntentVFX")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "render")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "renderName")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "renderIntent")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "updateDeathAnimation")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "updateEscapeAnimation")
 		public static class DeltaPatch {
 			public static ExprEditor Instrument() {
 				return new ExprEditor() {
