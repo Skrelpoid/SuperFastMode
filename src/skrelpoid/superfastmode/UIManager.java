@@ -25,6 +25,8 @@ public class UIManager implements PostInitializeSubscriber {
 	public static ModLabel saveFeedback;
 	public static boolean speedUpdated;
 
+	// TODO show comparison of speed
+
 	@Override
 	public void receivePostInitialize() {
 		speedUpdated = true;
@@ -37,6 +39,7 @@ public class UIManager implements PostInitializeSubscriber {
 		panel = new ModPanel();
 		panel.addUIElement(deltaToggle());
 		panel.addUIElement(skipToggle());
+		panel.addUIElement(creatureToggle());
 		panel.addUIElement(deltaSlider());
 		panel.addUIElement(saveButton());
 		panel.addUIElement(saveFeedback());
@@ -48,7 +51,7 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabeledToggleButton deltaToggle() {
 		final float x = 350;
 		final float y = 550;
-		return new ModLabeledToggleButton("Speed Up Game", x, y, Color.WHITE, FontHelper.buttonLabelFont,
+		return new ModLabeledToggleButton("Speed Up Game", x, y, Color.WHITE, FontHelper.tipBodyFont,
 				SuperFastMode.isDeltaMultiplied, panel, l -> {
 				}, UIManager::updateDeltaToggle);
 	}
@@ -62,7 +65,7 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabeledToggleButton skipToggle() {
 		final float x = 350;
 		final float y = 690;
-		return new ModLabeledToggleButton("Skip Some Animations", x, y, Color.WHITE, FontHelper.buttonLabelFont,
+		return new ModLabeledToggleButton("Skip Some Animations", x, y, Color.WHITE, FontHelper.tipBodyFont,
 				SuperFastMode.isInstantLerp, panel, l -> {
 				}, UIManager::updateSkipToggle);
 	}
@@ -71,7 +74,20 @@ public class UIManager implements PostInitializeSubscriber {
 		SuperFastMode.isInstantLerp = b.enabled;
 		SuperFastMode.logger.info("Toggling skip animations (lerp) to " + b.enabled);
 		speedUpdated = true;
+	}
 
+	private static ModLabeledToggleButton creatureToggle() {
+		final float x = 750;
+		final float y = 690;
+		return new ModLabeledToggleButton("Don't speed up creatures animations (Recommended)", x, y, Color.WHITE,
+				FontHelper.tipBodyFont, SuperFastMode.dontSpeedUpCreatures, panel, l -> {
+				}, UIManager::updateCreatureToggle);
+	}
+
+	private static void updateCreatureToggle(ModToggleButton b) {
+		SuperFastMode.dontSpeedUpCreatures = b.enabled;
+		SuperFastMode.logger.info("Toggling not speeding up creatures to " + b.enabled);
+		speedUpdated = true;
 	}
 
 	private static ModSlider deltaSlider() {

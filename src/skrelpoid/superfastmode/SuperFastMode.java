@@ -29,9 +29,9 @@ public class SuperFastMode {
 	public static boolean dontSpeedUpCreatures = true;
 	public static SpireConfig config;
 
-	// if the current request for the input to update is called from
+	// TODO Enemy intentions are sometimes not seen, seems to happen when
+	// continuing a save on the first turn
 
-	// TODO player and monster idle should not be affected by multiplied delta
 	// TODO UI rendering should not be affected by multiplied delta
 
 	public static void initialize() {
