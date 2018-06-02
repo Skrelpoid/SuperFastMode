@@ -6,17 +6,30 @@ import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
+//All methods patched in this class should always get the real delta time
+
+//TODO add to this patch: icons on the top right + energy display, draw pile, discard pile, enemy intents
 public class DefaultDeltaPatches {
 	//@formatter:off
+
 
 		// Makes time not increase by multiplier.
 		@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "update")
 		// Fixes mouse events not registering on map
 		@SpirePatch(cls = "com.megacrit.cardcrawl.screens.DungeonMapScreen", method = "updateMouse")
         // Display SpeechBubbles long enough to read
+		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.SpeechWord", method = "applyEffects")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "updateScale")
-        // Next prevent some flickering
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble", method = "updateScale")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.ShopSpeechBubble", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.ShopSpeechBubble", method = "updateScale")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechTextEffect", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.MegaSpeechBubble", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.MegaSpeechBubble", method = "updateScale")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.MegaDialogTextEffect", method = "update")
+        // Next prevent some flickering and make UI independent from multiplied delta
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.DynamicBanner", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.TintEffect", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.CancelButton", method = "updateGlow")
@@ -25,6 +38,7 @@ public class DefaultDeltaPatches {
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.EndTurnButton", method = "glow")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton", method = "updateGlow")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.buttons.ProceedButton", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.map.MapRoomNode", method = "oscillateColor")
 		public static class DeltaPatch {
 			public static ExprEditor Instrument() {
 				return new ExprEditor() {
