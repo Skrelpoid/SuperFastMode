@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="assets"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="D:/Dustin/StS/libs/ModTheSpire.jar" sourcepath="D:/Dustin/StS/libs/src/ModTheSpire-src.jar"/>
-	<classpathentry kind="lib" path="D:/Dustin/StS/05-31-2018/desktop-1.0.jar" sourcepath="D:/Dustin/StS/05-31-2018/SlayTheSpire.src.jar"/>
+	<classpathentry kind="lib" path="D:/Dustin/StS/05-31-2018/desktop-1.0.jar" sourcepath="D:/Dustin/StS/05-31-2018/cleanedSrc"/>
 	<classpathentry kind="lib" path="D:/Dustin/StS/libs/Week 27/BaseMod.jar" sourcepath="D:/Dustin/StS/libs/Week 27/BaseMod-2.11.0.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

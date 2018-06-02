@@ -2,15 +2,12 @@ package skrelpoid.superfastmode;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.Display;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
-import com.badlogic.gdx.backends.lwjgl.LwjglInput;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 
@@ -25,28 +22,17 @@ public class SuperFastMode {
 
 	public static final Logger logger = LogManager.getLogger(SuperFastMode.class.getName());
 
-	public static float deltaMultiplier = 3;
-	public static int additionalRenders = 0;
+	public static float deltaMultiplier = 2;
 	public static Field deltaField;
-	public static Field keyField;
-	public static Method inputProcessing;
 	public static boolean isDeltaMultiplied = true;
-	public static boolean isAcceleratedFPS = false;
 	public static boolean isInstantLerp = true;
+	public static boolean dontSpeedUpCreatures = true;
 	public static SpireConfig config;
 
-	// if the current request for the input to update is called from
-	// SuperFastMode. Used in LwjglInputPatches to avoid conflicts
-	// and in AbstractDungeonPatches to avoid the timer speeding up
-	public static boolean isSFMInput = false;
+	// TODO Enemy intentions are sometimes not seen, seems to happen when
+	// continuing a save on the first turn
 
-	// FIX: Input still sometimes is not registered when additionalRenders > 0.
-	// Is this just caused by lag?
-
-	// TODO Add Changelog
-	// TODO player and monster idle should not be affected by multiplied delta
 	// TODO UI rendering should not be affected by multiplied delta
-	// FIX Maybe remove fpsAcceleration
 
 	public static void initialize() {
 		logger.info("Initializing SuperFastMode");
@@ -57,12 +43,8 @@ public class SuperFastMode {
 			loadConfig();
 			deltaField = LwjglGraphics.class.getDeclaredField("deltaTime");
 			deltaField.setAccessible(true);
-			keyField = LwjglInput.class.getDeclaredField("keyJustPressed");
-			keyField.setAccessible(true);
-			inputProcessing = LwjglInput.class.getDeclaredMethod("processEvents");
-			inputProcessing.setAccessible(true);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.catching(ex);
 		}
 	}
 
@@ -75,25 +57,23 @@ public class SuperFastMode {
 			try {
 				config.save();
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				logger.catching(ex);
 			}
 		}
 	}
 
 	private static void loadConfig() {
 		isDeltaMultiplied = config.getBool("isDeltaMultiplied");
-		isAcceleratedFPS = config.getBool("isAcceleratedFPS");
 		isInstantLerp = config.getBool("isInstantLerp");
+		dontSpeedUpCreatures = config.getBool("dontSpeedUpCreatures");
 		deltaMultiplier = config.getFloat("deltaMultiplier");
-		additionalRenders = config.getInt("additionalRenders");
 	}
 
 	public static void writeConfig() {
 		config.setBool("isDeltaMultiplied", isDeltaMultiplied);
-		config.setBool("isAcceleratedFPS", isAcceleratedFPS);
 		config.setBool("isInstantLerp", isInstantLerp);
+		config.setBool("dontSpeedUpCreatures", dontSpeedUpCreatures);
 		config.setFloat("deltaMultiplier", deltaMultiplier);
-		config.setInt("additionalRenders", additionalRenders);
 	}
 
 	public static float getMultDelta(Object graphics) {
@@ -103,6 +83,11 @@ public class SuperFastMode {
 
 	public static float getMultDelta() {
 		return getMultDelta(Gdx.graphics);
+	}
+
+	// Gets multiplied delta but can't be higher than max
+	public static float getMultDeltaDelta(float max) {
+		return Math.min(max, getMultDelta());
 	}
 
 	// Gets current delta but can't be higher than max
@@ -115,7 +100,7 @@ public class SuperFastMode {
 		try {
 			delta = deltaField.getFloat(graphics);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.catching(ex);
 		}
 		return delta;
 	}
@@ -128,47 +113,6 @@ public class SuperFastMode {
 		if (isInstantLerp) {
 			start[0] = target;
 		}
-	}
-
-	public static void accelerateFPS() {
-		if (isAcceleratedFPS) {
-			isSFMInput = true;
-			for (int i = 0; i < additionalRenders; i++) {
-				try {
-					Gdx.app.getApplicationListener().render();
-					Display.update(false);
-					((LwjglInput) Gdx.input).update();
-					if (Gdx.input == null) {
-						System.out.println("Gdx input null");
-					}
-					if (inputProcessing == null) {
-						System.out.println("inputprocessing null");
-					}
-					inputProcessing.invoke(Gdx.input);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-			isSFMInput = false;
-		}
-	}
-
-	public static boolean isKeyJustPressed() {
-		if (isSFMInput) {
-			try {
-				return keyField.getBoolean(Gdx.input);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return false;
-	}
-
-	public static boolean isJustTouched() {
-		if (isSFMInput) {
-			return Gdx.input.justTouched();
-		}
-		return false;
 	}
 
 }
