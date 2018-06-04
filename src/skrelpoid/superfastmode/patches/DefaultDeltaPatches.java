@@ -13,7 +13,6 @@ import javassist.expr.MethodCall;
 
 //All methods patched in this class should always get the real delta time
 
-//TODO add to this patch: icons on the top right + energy display, draw pile, discard pile, enemy intents
 public class DefaultDeltaPatches {
 	//@formatter:off
 
@@ -22,10 +21,11 @@ public class DefaultDeltaPatches {
 		// Fixes mouse events not registering on map
 		@SpirePatch(cls = "com.megacrit.cardcrawl.screens.DungeonMapScreen", method = "updateMouse")
         // Display SpeechBubbles long enough to read
-        // Known issue: text stays longer than bubble. due to speech text effect maybe?
 		@SpirePatch(cls = "com.megacrit.cardcrawl.ui.SpeechWord", method = "applyEffects")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.SpeechBubble", method = "updateScale")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.CloudBubble", method = "update")
+		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.ThoughtBubble", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble", method = "updateScale")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.ShopSpeechBubble", method = "update")
