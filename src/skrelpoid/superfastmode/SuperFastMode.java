@@ -8,10 +8,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
+import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 import basemod.BaseMod;
+import basemod.ReflectionHacks;
 
 @SpireInitializer
 public class SuperFastMode {
@@ -109,10 +112,25 @@ public class SuperFastMode {
 		return getDelta(Gdx.graphics);
 	}
 
-	public static void lerp(float[] start, float target) {
+	public static void instantLerp(float[] start, float target) {
 		if (isInstantLerp) {
 			start[0] = target;
 		}
 	}
 
+	public static void updateVFX(AbstractGameEffect effect) {
+		// Copied from AbstractGameEffect.update()
+		if (effect.duration == effect.startingDuration) {
+		}
+		effect.duration -= getDelta();
+		Color c = (Color) (ReflectionHacks.getPrivate(effect, AbstractGameEffect.class, "color"));
+		if (effect.duration < effect.startingDuration / 2.0F) {
+			c.a = (effect.duration / (effect.startingDuration / 2.0F));
+		}
+
+		if (effect.duration < 0.0F) {
+			effect.isDone = true;
+			c.a = 0.0F;
+		}
+	}
 }

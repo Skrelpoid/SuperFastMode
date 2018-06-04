@@ -65,7 +65,7 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabeledToggleButton skipToggle() {
 		final float x = 350;
 		final float y = 690;
-		return new ModLabeledToggleButton("Skip Some Animations", x, y, Color.WHITE, FontHelper.tipBodyFont,
+		return new ModLabeledToggleButton("Skip Some Actions", x, y, Color.WHITE, FontHelper.tipBodyFont,
 				SuperFastMode.isInstantLerp, panel, l -> {
 				}, UIManager::updateSkipToggle);
 	}
@@ -132,7 +132,7 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabel skipInfo() {
 		final float x = 350;
 		final float y = 750;
-		return new ModLabel("Makes some Animations instant", x, y, FontHelper.tipBodyFont, panel, l -> {
+		return new ModLabel("Makes some Actions instant", x, y, FontHelper.tipBodyFont, panel, l -> {
 		});
 	}
 
