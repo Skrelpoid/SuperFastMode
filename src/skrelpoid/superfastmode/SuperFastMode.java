@@ -33,10 +33,7 @@ public class SuperFastMode {
 	public static boolean dontSpeedUpCreatures = true;
 	public static SpireConfig config;
 
-	// TODO Enemy intentions are sometimes not seen, seems to happen when
-	// continuing a save on the first turn
-
-	// TODO UI rendering should not be affected by multiplied delta
+	// TODO UI rendering should not be affected by multiplied delta. WIP
 
 	public static void initialize() {
 		logger.info("Initializing SuperFastMode");
