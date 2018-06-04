@@ -76,24 +76,12 @@ public class DefaultDeltaPatches {
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.ShieldParticleEffect", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.combat.BuffParticleEffect", method = "update")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.DebuffParticleEffect", method = "update")
-		public static class DeltaPatch {
-			public static ExprEditor Instrument() {
-				return new ExprEditor() {
-					@Override
-					public void edit(MethodCall m) throws CannotCompileException {
-						if (m.getMethodName().equals("getDeltaTime")) {
-							m.replace("{ $_ = skrelpoid.superfastmode.SuperFastMode.getDelta(); }");
-						}
-					}
-				};
-			}
-		}
-
+		// Orbs
 		@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Dark", method = "updateAnimation")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Frost", method = "updateAnimation")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Lightning", method = "updateAnimation")
 		@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Plasma", method = "updateAnimation")
-		public static class OrbDeltaPatch {
+		public static class DeltaPatch {
 			public static ExprEditor Instrument() {
 				return new ExprEditor() {
 					@Override
@@ -111,7 +99,7 @@ public class DefaultDeltaPatches {
 		public static class IntentFix {
 			@SpireInsertPatch(rloc = 10)
 			public static void Insert(BattleStartEffect effect) {
-				for (AbstractMonster m: AbstractDungeon.getMonsters().monsters) {
+				for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
 					if (m.intent == Intent.DEBUG) {
 						m.createIntent();
 					}
