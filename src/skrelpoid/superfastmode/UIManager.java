@@ -24,12 +24,13 @@ public class UIManager implements PostInitializeSubscriber {
 	public static ModPanel panel;
 	public static ModLabel saveFeedback;
 	public static boolean speedUpdated;
-
-	// TODO show comparison of speed
+	public static Texture progressTexture;
+	public static ProgressBar progressBar, multProgressBar;
 
 	@Override
 	public void receivePostInitialize() {
 		speedUpdated = true;
+		progressTexture = new Texture("img/progress.png");
 		buildUI();
 		BaseMod.registerModBadge(new Texture("img/modBadge.png"), SuperFastMode.MOD_NAME, SuperFastMode.AUTHOR,
 				SuperFastMode.DESCRIPTION, panel);
@@ -46,6 +47,10 @@ public class UIManager implements PostInitializeSubscriber {
 		panel.addUIElement(skipInfo());
 		panel.addUIElement(deltaInfo());
 		panel.addUIElement(speedInfo());
+		panel.addUIElement(progress());
+		panel.addUIElement(multProgress());
+		panel.addUIElement(progressInfo());
+		panel.addUIElement(multProgressInfo());
 	}
 
 	private static ModLabeledToggleButton deltaToggle() {
@@ -155,11 +160,45 @@ public class UIManager implements PostInitializeSubscriber {
 			speedUpdated = false;
 			saveFeedback.text = UNSAVED_SETTINGS;
 			l.text = "Game Speed is " + (int) (calculateSpeed() * 100 + 0.5f) + "%";
+			progressBar.resetProgress();
+			multProgressBar.resetProgress();
 		}
 	}
 
 	private static float calculateSpeed() {
 		return SuperFastMode.isDeltaMultiplied ? SuperFastMode.deltaMultiplier : 1;
+	}
+
+	private static ProgressBar progress() {
+		final float x = 600;
+		final float y = 460;
+		final float width = 600;
+		final float height = 32;
+		progressBar = new ProgressBar(panel, x, y, width, height, progressTexture, false);
+		return progressBar;
+	}
+
+	private static ProgressBar multProgress() {
+		final float x = 600;
+		final float y = 390;
+		final float width = 600;
+		final float height = 32;
+		multProgressBar = new ProgressBar(panel, x, y, width, height, progressTexture, true);
+		return multProgressBar;
+	}
+
+	private static ModLabel progressInfo() {
+		final float x = 450;
+		final float y = 471;
+		return new ModLabel("Normal Speed:", x, y, FontHelper.tipBodyFont, panel, l -> {
+		});
+	}
+
+	private static ModLabel multProgressInfo() {
+		final float x = 450;
+		final float y = 401;
+		return new ModLabel("Accelerated:", x, y, FontHelper.tipBodyFont, panel, l -> {
+		});
 	}
 
 }

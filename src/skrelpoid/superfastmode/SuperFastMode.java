@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
@@ -79,7 +80,7 @@ public class SuperFastMode {
 		config.setFloat("deltaMultiplier", deltaMultiplier);
 	}
 
-	public static float getMultDelta(Object graphics) {
+	public static float getMultDelta(Graphics graphics) {
 		float mult = isDeltaMultiplied ? SuperFastMode.deltaMultiplier : 1;
 		return mult * getDelta(graphics);
 	}
@@ -89,7 +90,7 @@ public class SuperFastMode {
 	}
 
 	// Gets multiplied delta but can't be higher than max
-	public static float getMultDeltaDelta(float max) {
+	public static float getMultDelta(float max) {
 		return Math.min(max, getMultDelta());
 	}
 
@@ -98,7 +99,7 @@ public class SuperFastMode {
 		return Math.min(max, getDelta());
 	}
 
-	public static float getDelta(Object graphics) {
+	public static float getDelta(Graphics graphics) {
 		float delta = 0.016f;
 		try {
 			delta = deltaField.getFloat(graphics);
@@ -120,8 +121,6 @@ public class SuperFastMode {
 
 	public static void updateVFX(AbstractGameEffect effect) {
 		// Copied from AbstractGameEffect.update()
-		if (effect.duration == effect.startingDuration) {
-		}
 		effect.duration -= getDelta();
 		Color c = (Color) (ReflectionHacks.getPrivate(effect, AbstractGameEffect.class, "color"));
 		if (effect.duration < effect.startingDuration / 2.0F) {
