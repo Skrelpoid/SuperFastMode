@@ -7,11 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
+import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 import basemod.BaseMod;
+import basemod.ReflectionHacks;
 
 @SpireInitializer
 public class SuperFastMode {
@@ -29,10 +33,7 @@ public class SuperFastMode {
 	public static boolean dontSpeedUpCreatures = true;
 	public static SpireConfig config;
 
-	// TODO Enemy intentions are sometimes not seen, seems to happen when
-	// continuing a save on the first turn
-
-	// TODO UI rendering should not be affected by multiplied delta
+	// TODO UI rendering should not be affected by multiplied delta. WIP
 
 	public static void initialize() {
 		logger.info("Initializing SuperFastMode");
@@ -76,7 +77,7 @@ public class SuperFastMode {
 		config.setFloat("deltaMultiplier", deltaMultiplier);
 	}
 
-	public static float getMultDelta(Object graphics) {
+	public static float getMultDelta(Graphics graphics) {
 		float mult = isDeltaMultiplied ? SuperFastMode.deltaMultiplier : 1;
 		return mult * getDelta(graphics);
 	}
@@ -86,7 +87,7 @@ public class SuperFastMode {
 	}
 
 	// Gets multiplied delta but can't be higher than max
-	public static float getMultDeltaDelta(float max) {
+	public static float getMultDelta(float max) {
 		return Math.min(max, getMultDelta());
 	}
 
@@ -95,7 +96,7 @@ public class SuperFastMode {
 		return Math.min(max, getDelta());
 	}
 
-	public static float getDelta(Object graphics) {
+	public static float getDelta(Graphics graphics) {
 		float delta = 0.016f;
 		try {
 			delta = deltaField.getFloat(graphics);
@@ -109,10 +110,23 @@ public class SuperFastMode {
 		return getDelta(Gdx.graphics);
 	}
 
-	public static void lerp(float[] start, float target) {
+	public static void instantLerp(float[] start, float target) {
 		if (isInstantLerp) {
 			start[0] = target;
 		}
 	}
 
+	public static void updateVFX(AbstractGameEffect effect) {
+		// Copied from AbstractGameEffect.update()
+		effect.duration -= getDelta();
+		Color c = (Color) (ReflectionHacks.getPrivate(effect, AbstractGameEffect.class, "color"));
+		if (effect.duration < effect.startingDuration / 2.0F) {
+			c.a = (effect.duration / (effect.startingDuration / 2.0F));
+		}
+
+		if (effect.duration < 0.0F) {
+			effect.isDone = true;
+			c.a = 0.0F;
+		}
+	}
 }

@@ -11,12 +11,16 @@ public class MathUtilsPatches {
 	@SpirePatch(cls = "com.badlogic.gdx.math.MathUtils", method = "lerp")
 	public static class LerpPatch {
 		public static float Replace(float fromValue, float toValue, float progress) {
-			float result = fromValue + (toValue - fromValue) * progress;
+			float result = lerp(fromValue, toValue, progress);
 			// result should never be higher than toValue
 			if (result > toValue || SuperFastMode.isInstantLerp) {
 				result = toValue;
 			}
 			return result;
 		}
+	}
+
+	public static float lerp(float from, float to, float progress) {
+		return from + (to - from) * progress;
 	}
 }

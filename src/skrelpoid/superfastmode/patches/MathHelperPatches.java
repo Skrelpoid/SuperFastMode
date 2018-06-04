@@ -24,7 +24,7 @@ public class MathHelperPatches {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "scrollSnapLerpSpeed")
 	public static class InstantLerp {
 		public static void Prefix(@ByRef float[] start, float target) {
-			SuperFastMode.lerp(start, target);
+			SuperFastMode.instantLerp(start, target);
 		}
 	}
 }
