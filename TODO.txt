@@ -1,0 +1,25 @@
+DefaultDeltaPatch:
+MainMenuScreen (Clouds)
+Exordium (Background Flames, Fog)
+The City (Particles)
+Particles in general
+RestRoom (Fire, Smoke)
+Numbers displayed (Damage in fight and event)
+ShopScreen (Merchant Hand)
+TreasureRoom (Smoke and Glitter)
+UpgradeScreen (Arrows)
+TransformScreen (Arrows)
+BossTreasureChest (Smoke, Glitter, Relic Movement)
+Victory/LostScreen (Smoke)
+
+Other:
+Check out all events (and fights if possible) and see if anything's off
+Test if speech bubbles slow down fight (single thief)
+
+DONE:
+SplashScreen (Logo)
+TitleScreen (Dust, Logo Flame)
+MapScreen (Select A Starting Room button [BLINKS!])
+NameEnterDialog (Backspace is way too fast)
+CreditsScreen (Come on dude)
+AbstractEvent (Text Effects)

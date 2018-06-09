@@ -13,7 +13,7 @@ public class MathUtilsPatches {
 		public static float Replace(float fromValue, float toValue, float progress) {
 			float result = lerp(fromValue, toValue, progress);
 			// result should never be higher than toValue
-			if (result > toValue || SuperFastMode.isInstantLerp) {
+			if (SuperFastMode.isInstantLerp) {
 				result = toValue;
 			}
 			return result;
