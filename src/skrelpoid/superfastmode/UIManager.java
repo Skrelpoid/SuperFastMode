@@ -57,8 +57,7 @@ public class UIManager implements PostInitializeSubscriber {
 		final float x = 350;
 		final float y = 550;
 		return new ModLabeledToggleButton("Speed Up Game", x, y, Color.WHITE, FontHelper.tipBodyFont,
-				SuperFastMode.isDeltaMultiplied, panel, l -> {
-				}, UIManager::updateDeltaToggle);
+				SuperFastMode.isDeltaMultiplied, panel, l -> {}, UIManager::updateDeltaToggle);
 	}
 
 	private static void updateDeltaToggle(ModToggleButton b) {
@@ -71,8 +70,7 @@ public class UIManager implements PostInitializeSubscriber {
 		final float x = 350;
 		final float y = 690;
 		return new ModLabeledToggleButton("Skip Some Actions", x, y, Color.WHITE, FontHelper.tipBodyFont,
-				SuperFastMode.isInstantLerp, panel, l -> {
-				}, UIManager::updateSkipToggle);
+				SuperFastMode.isInstantLerp, panel, l -> {}, UIManager::updateSkipToggle);
 	}
 
 	private static void updateSkipToggle(ModToggleButton b) {
@@ -81,12 +79,13 @@ public class UIManager implements PostInitializeSubscriber {
 		speedUpdated = true;
 	}
 
+	// TODO This probably doesn't have to be an option
 	private static ModLabeledToggleButton creatureToggle() {
 		final float x = 750;
 		final float y = 690;
 		return new ModLabeledToggleButton("Don't speed up creature's animations (Recommended)", x, y, Color.WHITE,
-				FontHelper.tipBodyFont, SuperFastMode.dontSpeedUpCreatures, panel, l -> {
-				}, UIManager::updateCreatureToggle);
+				FontHelper.tipBodyFont, SuperFastMode.dontSpeedUpCreatures, panel, l -> {},
+				UIManager::updateCreatureToggle);
 	}
 
 	private static void updateCreatureToggle(ModToggleButton b) {
@@ -129,24 +128,22 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabel saveFeedback() {
 		final float x = 430;
 		final float y = 315;
-		saveFeedback = new ModLabel(UNSAVED_SETTINGS, x, y, panel, l -> {
-		});
+		saveFeedback = new ModLabel(UNSAVED_SETTINGS, x, y, panel, l -> {});
 		return saveFeedback;
 	}
 
 	private static ModLabel skipInfo() {
 		final float x = 350;
 		final float y = 750;
-		return new ModLabel("Makes some Actions instant", x, y, FontHelper.tipBodyFont, panel, l -> {
-		});
+		return new ModLabel("Recommended. If this is turned off,\nthe GUI might glitch out a bit.", x, y,
+				FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel deltaInfo() {
 		final float x = 350;
 		final float y = 610;
 		return new ModLabel("Makes the game think more time has elapsed. Doesn't cause lag!", x, y,
-				FontHelper.tipBodyFont, panel, l -> {
-				});
+				FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel speedInfo() {
@@ -190,15 +187,13 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabel progressInfo() {
 		final float x = 450;
 		final float y = 471;
-		return new ModLabel("Normal Speed:", x, y, FontHelper.tipBodyFont, panel, l -> {
-		});
+		return new ModLabel("Normal Speed:", x, y, FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel multProgressInfo() {
 		final float x = 450;
 		final float y = 401;
-		return new ModLabel("Accelerated:", x, y, FontHelper.tipBodyFont, panel, l -> {
-		});
+		return new ModLabel("Accelerated:", x, y, FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 }
