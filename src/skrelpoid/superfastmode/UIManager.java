@@ -79,6 +79,7 @@ public class UIManager implements PostInitializeSubscriber {
 		speedUpdated = true;
 	}
 
+	// TODO This probably doesn't have to be an option
 	private static ModLabeledToggleButton creatureToggle() {
 		final float x = 750;
 		final float y = 690;
