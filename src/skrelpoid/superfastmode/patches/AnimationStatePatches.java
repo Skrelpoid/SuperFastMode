@@ -10,7 +10,7 @@ public class AnimationStatePatches {
 	@SpirePatch(cls = "com.esotericsoftware.spine.AnimationState", method = "update")
 	public static class Update {
 		public static void Prefix(@SuppressWarnings("unused") Object o, @ByRef(type = "float") float[] delta) {
-			if (delta[0] == SuperFastMode.getMultDelta() && SuperFastMode.dontSpeedUpCreatures) {
+			if (delta[0] == SuperFastMode.getMultDelta()) {
 				delta[0] = SuperFastMode.getDelta();
 			}
 		}

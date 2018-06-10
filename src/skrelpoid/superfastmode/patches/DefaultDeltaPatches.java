@@ -82,6 +82,10 @@ public class DefaultDeltaPatches {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Frost", method = "updateAnimation")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Lightning", method = "updateAnimation")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.orbs.Plasma", method = "updateAnimation")
+	// Relic
+	@SpirePatch(cls = "com.megacrit.cardcrawl.relics.AbstractRelic", method = "updateFlash")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.relics.AbstractRelic", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.FloatyEffect", method = "update")
 	// MainMenuScreen
 	@SpirePatch(cls = "com.megacrit.cardcrawl.scenes.TitleBackground", method = "update")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.scenes.TitleBackground", method = "updateFlame")
@@ -106,6 +110,34 @@ public class DefaultDeltaPatches {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.shop.ShopScreen", method = "update")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.shop.ShopScreen", method = "updateSpeech")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.shop.ShopScreen", method = "updateHand")
+	// RestRoom
+	@SpirePatch(cls = "com.megacrit.cardcrawl.rooms.CampfireUI", method = "updateFire")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.campfire.CampfireBurningEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.campfire.CampfireBubbleEffect", method = "update")
+	// Particles Exordium
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.DustEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.BottomFogEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.InteractableTorchEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.TorchParticleSEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.LightFlareSEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.TorchParticleMEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.LightFlareMEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.TorchParticleLEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.LightFlareLEffect", method = "update")
+	// Particles The City
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.CeilingDustCloudEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.FallingDustEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.scenes.TheCityScene", method = "updateParticles")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.FireFlyEffect", method = "update")
+	// Chests
+	@SpirePatch(cls = "com.megacrit.cardcrawl.rooms.TreasureRoom", method = "updateShiny")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.ChestShineEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.SpookierChestEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.BossChestShineEffect", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.screens.select.BossRelicSelectScreen", method = "update")
+	// DeathScreen
+	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.DeathScreenFloatyEffect", method = "update")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
