@@ -40,7 +40,6 @@ public class UIManager implements PostInitializeSubscriber {
 		panel = new ModPanel();
 		panel.addUIElement(deltaToggle());
 		panel.addUIElement(skipToggle());
-		panel.addUIElement(creatureToggle());
 		panel.addUIElement(deltaSlider());
 		panel.addUIElement(saveButton());
 		panel.addUIElement(saveFeedback());
@@ -69,28 +68,13 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabeledToggleButton skipToggle() {
 		final float x = 350;
 		final float y = 690;
-		return new ModLabeledToggleButton("Skip Some Actions", x, y, Color.WHITE, FontHelper.tipBodyFont,
+		return new ModLabeledToggleButton("Make some Actions instant", x, y, Color.WHITE, FontHelper.tipBodyFont,
 				SuperFastMode.isInstantLerp, panel, l -> {}, UIManager::updateSkipToggle);
 	}
 
 	private static void updateSkipToggle(ModToggleButton b) {
 		SuperFastMode.isInstantLerp = b.enabled;
-		SuperFastMode.logger.info("Toggling skip animations (lerp) to " + b.enabled);
-		speedUpdated = true;
-	}
-
-	// TODO This probably doesn't have to be an option
-	private static ModLabeledToggleButton creatureToggle() {
-		final float x = 750;
-		final float y = 690;
-		return new ModLabeledToggleButton("Don't speed up creature's animations (Recommended)", x, y, Color.WHITE,
-				FontHelper.tipBodyFont, SuperFastMode.dontSpeedUpCreatures, panel, l -> {},
-				UIManager::updateCreatureToggle);
-	}
-
-	private static void updateCreatureToggle(ModToggleButton b) {
-		SuperFastMode.dontSpeedUpCreatures = b.enabled;
-		SuperFastMode.logger.info("Toggling not speeding up creatures to " + b.enabled);
+		SuperFastMode.logger.info("Toggling skip actions (lerp) to " + b.enabled);
 		speedUpdated = true;
 	}
 

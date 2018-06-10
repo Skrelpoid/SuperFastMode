@@ -30,7 +30,6 @@ public class SuperFastMode {
 	public static Field deltaField;
 	public static boolean isDeltaMultiplied = true;
 	public static boolean isInstantLerp = true;
-	public static boolean dontSpeedUpCreatures = true;
 	public static SpireConfig config;
 
 	// TODO UI rendering should not be affected by multiplied delta. WIP
@@ -66,14 +65,12 @@ public class SuperFastMode {
 	private static void loadConfig() {
 		isDeltaMultiplied = config.getBool("isDeltaMultiplied");
 		isInstantLerp = config.getBool("isInstantLerp");
-		dontSpeedUpCreatures = config.getBool("dontSpeedUpCreatures");
 		deltaMultiplier = config.getFloat("deltaMultiplier");
 	}
 
 	public static void writeConfig() {
 		config.setBool("isDeltaMultiplied", isDeltaMultiplied);
 		config.setBool("isInstantLerp", isInstantLerp);
-		config.setBool("dontSpeedUpCreatures", dontSpeedUpCreatures);
 		config.setFloat("deltaMultiplier", deltaMultiplier);
 	}
 
