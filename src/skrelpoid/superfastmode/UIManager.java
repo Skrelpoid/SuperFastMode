@@ -2,13 +2,11 @@ package skrelpoid.superfastmode;
 
 import java.io.IOException;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 
 import basemod.BaseMod;
-import basemod.ModButton;
 import basemod.ModLabel;
 import basemod.ModLabeledToggleButton;
 import basemod.ModPanel;
@@ -22,13 +20,16 @@ public class UIManager implements PostInitializeSubscriber {
 	public static final float MIN_DELTA = 0.05f;
 
 	public static ModPanel panel;
-	public static ModLabel saveFeedback;
+	public static float timeUntilSave;
+	public static boolean hasSaved;
 	public static boolean speedUpdated;
 	public static Texture progressTexture;
 	public static ProgressBar progressBar, multProgressBar;
 
 	@Override
 	public void receivePostInitialize() {
+		timeUntilSave = 1;
+		hasSaved = false;
 		speedUpdated = true;
 		progressTexture = new Texture("img/progress.png");
 		buildUI();
@@ -41,8 +42,6 @@ public class UIManager implements PostInitializeSubscriber {
 		panel.addUIElement(deltaToggle());
 		panel.addUIElement(skipToggle());
 		panel.addUIElement(deltaSlider());
-		panel.addUIElement(saveButton());
-		panel.addUIElement(saveFeedback());
 		panel.addUIElement(skipInfo());
 		panel.addUIElement(deltaInfo());
 		panel.addUIElement(speedInfo());
@@ -54,7 +53,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ModLabeledToggleButton deltaToggle() {
 		final float x = 350;
-		final float y = 550;
+		final float y = 450;
 		return new ModLabeledToggleButton("Speed Up Game", x, y, Color.WHITE, FontHelper.tipBodyFont,
 				SuperFastMode.isDeltaMultiplied, panel, l -> {}, UIManager::updateDeltaToggle);
 	}
@@ -67,7 +66,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ModLabeledToggleButton skipToggle() {
 		final float x = 350;
-		final float y = 690;
+		final float y = 590;
 		return new ModLabeledToggleButton("Make some Actions instant", x, y, Color.WHITE, FontHelper.tipBodyFont,
 				SuperFastMode.isInstantLerp, panel, l -> {}, UIManager::updateSkipToggle);
 	}
@@ -80,7 +79,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ModSlider deltaSlider() {
 		final float x = 530;
-		final float y = 580;
+		final float y = 480;
 		ModSlider deltaSlider = new ModSlider("Multiply by: ", x, y, DELTA_SLIDER_MULTI * 100, "%", panel,
 				UIManager::updateDeltaSlider);
 		deltaSlider.setValue(SuperFastMode.deltaMultiplier * 1 / DELTA_SLIDER_MULTI);
@@ -88,61 +87,52 @@ public class UIManager implements PostInitializeSubscriber {
 	}
 
 	private static void updateDeltaSlider(ModSlider s) {
-		// deltaMultiplier should never be 0, so never be > MIN_DELTA
+		// deltaMultiplier should never be 0
 		SuperFastMode.deltaMultiplier = Math.max(s.value * DELTA_SLIDER_MULTI, MIN_DELTA);
 		speedUpdated = true;
 	}
 
-	private static ModButton saveButton() {
-		final float x = 900;
-		final float y = 290;
-		return new ModButton(x, y, new Texture(Gdx.files.internal("img/save.png")), panel, b -> updateSaveButton());
-	}
-
-	private static void updateSaveButton() {
-		try {
-			SuperFastMode.writeConfig();
-			SuperFastMode.config.save();
-			saveFeedback.text = "Saved Settings!";
-		} catch (IOException ex) {
-			SuperFastMode.logger.catching(ex);
-		}
-	}
-
-	private static ModLabel saveFeedback() {
-		final float x = 430;
-		final float y = 315;
-		saveFeedback = new ModLabel(UNSAVED_SETTINGS, x, y, panel, l -> {});
-		return saveFeedback;
-	}
-
 	private static ModLabel skipInfo() {
 		final float x = 350;
-		final float y = 750;
+		final float y = 650;
 		return new ModLabel("Recommended. If this is turned off,\nthe GUI might glitch out a bit.", x, y,
 				FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel deltaInfo() {
 		final float x = 350;
-		final float y = 610;
+		final float y = 510;
 		return new ModLabel("Makes the game think more time has elapsed. Doesn't cause lag!", x, y,
 				FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel speedInfo() {
-		final float x = 1050;
-		final float y = 315;
+		final float x = 1200;
+		final float y = 615;
 		return new ModLabel("", x, y, FontHelper.buttonLabelFont, panel, UIManager::updateSpeedInfo);
 	}
 
 	private static void updateSpeedInfo(ModLabel l) {
 		if (speedUpdated) {
 			speedUpdated = false;
-			saveFeedback.text = UNSAVED_SETTINGS;
+			hasSaved = false;
+			timeUntilSave = 1;
 			l.text = "Game Speed is " + (int) (calculateSpeed() * 100 + 0.5f) + "%";
 			progressBar.resetProgress();
 			multProgressBar.resetProgress();
+		}
+		if (!hasSaved) {
+			timeUntilSave -= SuperFastMode.getDelta();
+			if (timeUntilSave <= 0) {
+				hasSaved = true;
+				SuperFastMode.logger.info("Saving Settings");
+				try {
+					SuperFastMode.writeConfig();
+					SuperFastMode.config.save();
+				} catch (IOException ex) {
+					SuperFastMode.logger.catching(ex);
+				}
+			}
 		}
 	}
 
@@ -152,7 +142,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ProgressBar progress() {
 		final float x = 600;
-		final float y = 460;
+		final float y = 360;
 		final float width = 600;
 		final float height = 32;
 		progressBar = new ProgressBar(panel, x, y, width, height, progressTexture, false);
@@ -161,7 +151,7 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ProgressBar multProgress() {
 		final float x = 600;
-		final float y = 390;
+		final float y = 290;
 		final float width = 600;
 		final float height = 32;
 		multProgressBar = new ProgressBar(panel, x, y, width, height, progressTexture, true);
@@ -170,13 +160,13 @@ public class UIManager implements PostInitializeSubscriber {
 
 	private static ModLabel progressInfo() {
 		final float x = 450;
-		final float y = 471;
+		final float y = 371;
 		return new ModLabel("Normal Speed:", x, y, FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel multProgressInfo() {
 		final float x = 450;
-		final float y = 401;
+		final float y = 301;
 		return new ModLabel("Accelerated:", x, y, FontHelper.tipBodyFont, panel, l -> {});
 	}
 
