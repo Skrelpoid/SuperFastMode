@@ -138,6 +138,8 @@ public class DefaultDeltaPatches {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.screens.select.BossRelicSelectScreen", method = "update")
 	// DeathScreen
 	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.DeathScreenFloatyEffect", method = "update")
+	// GridSelectScreen (Tramsform and Upgrade)
+	@SpirePatch(cls = "com.megacrit.cardcrawl.screens.select.GridCardSelectScreen", method = "update")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {

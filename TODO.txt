@@ -1,8 +1,6 @@
 DefaultDeltaPatch:
 MainMenuScreen (Clouds)
 Numbers displayed (Damage in fight and event [only if possible])
-UpgradeScreen (Arrows)
-TransformScreen (Arrows)
 
 Other:
 Check out all events (and fights if possible) and see if anything's off
@@ -11,6 +9,8 @@ Look through AbstractGameEffect and subclasses to make improvements there
 
 DONE:
 DeathScreen (Smoke)
+UpgradeScreen (Arrows)
+TransformScreen (Arrows, Random Cards)
 AbstractRelic (flash/pulse)
 TreasureRoom (Smoke and Glitter)
 BossTreasureChest (Smoke, Glitter, Relic Movement)
