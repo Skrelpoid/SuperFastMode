@@ -92,7 +92,7 @@ public class DefaultDeltaPatches {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.scenes.TitleBackground", method = "updateDust")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.LogoFlameEffect", method = "update")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.scene.TitleDustEffect", method = "update")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.ui.panels.RenamePanel", method = "update")
+	@SpirePatch(cls = "com.megacrit.cardcrawl.ui.panels.RenamePopup", method = "update")
 	// Credits
 	@SpirePatch(cls = "com.megacrit.cardcrawl.credits.CreditsScreen", method = "update")
 	@SpirePatch(cls = "com.megacrit.cardcrawl.credits.CreditsScreen", method = "updateFade")
@@ -157,7 +157,7 @@ public class DefaultDeltaPatches {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.vfx.combat.BattleStartEffect", method = "update")
 	public static class IntentFix {
 		@SpireInsertPatch(rloc = 10)
-		public static void Insert(@SuppressWarnings("unused") BattleStartEffect effect) {
+		public static void Insert(BattleStartEffect effect) {
 			for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
 				if (m.intent == Intent.DEBUG) {
 					m.createIntent();
