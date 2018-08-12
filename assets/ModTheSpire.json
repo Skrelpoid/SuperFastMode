@@ -3,8 +3,9 @@
   "name": "SuperFastMode",
   "author_list": ["Skrelpoid"],
   "description": "Artificially speeds up the Game. Ingame, go to Mods>SuperFastMode>Config to change Settings. WARNING: Very high values can cause screen flickering. Be careful if you're photo sensitive!",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "sts_version": "08-08-2018",
   "mts_version": "2.9.1",
-  "dependencies": ["basemod"]
+  "dependencies": ["basemod"],
+  "update_json": "https://api.github.com/repos/Skrelpoid/SuperFastMode/releases/latest"
 }
