@@ -7,7 +7,7 @@ import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
 public class CardCrawlGamePatches {
-	@SpirePatch(cls = "com.megacrit.cardcrawl.core.CardCrawlGame", method = "render")
+	@SpirePatch(clz = com.megacrit.cardcrawl.core.CardCrawlGame.class, method = "render")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {

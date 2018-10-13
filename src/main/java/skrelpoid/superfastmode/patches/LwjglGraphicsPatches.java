@@ -8,7 +8,7 @@ import javassist.expr.FieldAccess;
 
 public class LwjglGraphicsPatches {
 
-	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglGraphics", method = "getDeltaTime")
+	@SpirePatch(clz = com.badlogic.gdx.backends.lwjgl.LwjglGraphics.class, method = "getDeltaTime")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
@@ -22,7 +22,7 @@ public class LwjglGraphicsPatches {
 		}
 	}
 
-	@SpirePatch(cls = "com.badlogic.gdx.backends.lwjgl.LwjglGraphics", method = "getRawDeltaTime")
+	@SpirePatch(clz = com.badlogic.gdx.backends.lwjgl.LwjglGraphics.class, method = "getRawDeltaTime")
 	public static class RawDeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {

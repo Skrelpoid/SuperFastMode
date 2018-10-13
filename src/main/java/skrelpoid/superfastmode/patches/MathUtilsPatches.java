@@ -8,7 +8,7 @@ public class MathUtilsPatches {
 
 	// I do not know why this is not the way this method works by default
 	// Fixes pretty much everything that uses this method
-	@SpirePatch(cls = "com.badlogic.gdx.math.MathUtils", method = "lerp")
+	@SpirePatch(clz = com.badlogic.gdx.math.MathUtils.class, method = "lerp")
 	public static class LerpPatch {
 		public static float Replace(float fromValue, float toValue, float progress) {
 			float result = lerp(fromValue, toValue, progress);
