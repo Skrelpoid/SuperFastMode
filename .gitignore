@@ -24,3 +24,19 @@ bin/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+*.jar
+/build/
+!/gradle/wrapper/gradle-wrapper.jar
+/bin/
+.classpath
+.project
+.settings
+.gradle
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Cache of project
+.gradletasknamecache
+

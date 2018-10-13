@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+
+repositories {
+   flatDir {
+       dirs '../lib'
+   }
+}
+
+dependencies {
+    compileOnly fileTree(dir: '../lib', include: '*.jar')
+}
+
+task listJars doLast {
+    configurations.compileOnly.each { File file -> println file.name }
+}
+
+// configure sources for jars
+eclipse {
+    classpath {
+        file {
+            whenMerged { 
+            	try {
+            	    def basemod = entries.find { it.path.contains 'BaseMod.jar' }
+            	    basemod.sourcePath = fileReference(file('../lib/BaseMod.zip'))
+           	 	    def modthespire = entries.find { it.path.contains 'ModTheSpire.jar' }
+            	    modthespire.sourcePath = fileReference(file('../lib/ModTheSpire.zip'))
+             	    def slaythespire = entries.find { it.path.contains 'desktop-1.0.jar' }
+            	    slaythespire.sourcePath = fileReference(file('../lib/decompiled/'))
+            	    println 'Added sources for dependencies'
+            	} catch (Exception ex) {
+            		println 'Could not add sources for dependencies'
+            	}
+            }
+        }
+    }
+}
