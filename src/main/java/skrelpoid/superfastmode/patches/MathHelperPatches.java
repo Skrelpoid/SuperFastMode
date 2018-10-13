@@ -11,17 +11,17 @@ import skrelpoid.superfastmode.SuperFastMode;
 // your hand because currentX will be set to targetX instantly
 public class MathHelperPatches {
 
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "mouseLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "cardLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "cardScaleLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "uiLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "orbLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "scaleLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "fadeLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "popLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "angleLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "slowColorLerpSnap")
-	@SpirePatch(cls = "com.megacrit.cardcrawl.helpers.MathHelper", method = "scrollSnapLerpSpeed")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "mouseLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "cardLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "cardScaleLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "uiLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "orbLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "scaleLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "fadeLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "popLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "angleLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "slowColorLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "scrollSnapLerpSpeed")
 	public static class InstantLerp {
 		public static void Prefix(@ByRef float[] start, float target) {
 			SuperFastMode.instantLerp(start, target);
