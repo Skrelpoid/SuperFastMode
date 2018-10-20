@@ -78,7 +78,7 @@ public class UIManager implements PostInitializeSubscriber {
 	}
 
 	private static ModSlider deltaSlider() {
-		final float x = 530;
+		final float x = 1250;
 		final float y = 480;
 		ModSlider deltaSlider = new ModSlider("Multiply by: ", x, y, DELTA_SLIDER_MULTI * 100, "%", panel,
 				UIManager::updateDeltaSlider);
