@@ -1,11 +1,9 @@
 package skrelpoid.superfastmode;
 
 import java.io.IOException;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-
 import basemod.BaseMod;
 import basemod.ModLabel;
 import basemod.ModLabeledToggleButton;
@@ -40,9 +38,7 @@ public class UIManager implements PostInitializeSubscriber {
 	public static void buildUI() {
 		panel = new ModPanel();
 		panel.addUIElement(deltaToggle());
-		panel.addUIElement(skipToggle());
 		panel.addUIElement(deltaSlider());
-		panel.addUIElement(skipInfo());
 		panel.addUIElement(deltaInfo());
 		panel.addUIElement(speedInfo());
 		panel.addUIElement(progress());
@@ -64,19 +60,6 @@ public class UIManager implements PostInitializeSubscriber {
 		speedUpdated = true;
 	}
 
-	private static ModLabeledToggleButton skipToggle() {
-		final float x = 350;
-		final float y = 590;
-		return new ModLabeledToggleButton("Make some Actions instant", x, y, Color.WHITE, FontHelper.tipBodyFont,
-				SuperFastMode.isInstantLerp, panel, l -> {}, UIManager::updateSkipToggle);
-	}
-
-	private static void updateSkipToggle(ModToggleButton b) {
-		SuperFastMode.isInstantLerp = b.enabled;
-		SuperFastMode.logger.info("Toggling skip actions (lerp) to " + b.enabled);
-		speedUpdated = true;
-	}
-
 	private static ModSlider deltaSlider() {
 		final float x = 1250;
 		final float y = 480;
@@ -90,13 +73,6 @@ public class UIManager implements PostInitializeSubscriber {
 		// deltaMultiplier should never be 0
 		SuperFastMode.deltaMultiplier = Math.max(s.value * DELTA_SLIDER_MULTI, MIN_DELTA);
 		speedUpdated = true;
-	}
-
-	private static ModLabel skipInfo() {
-		final float x = 350;
-		final float y = 650;
-		return new ModLabel("Recommended. If this is turned off,\nthe GUI might glitch out a bit.", x, y,
-				FontHelper.tipBodyFont, panel, l -> {});
 	}
 
 	private static ModLabel deltaInfo() {
