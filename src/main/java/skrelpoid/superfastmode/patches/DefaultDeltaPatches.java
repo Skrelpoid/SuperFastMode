@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster.Intent;
 import com.megacrit.cardcrawl.vfx.combat.BattleStartEffect;
-
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
@@ -143,6 +142,18 @@ public class DefaultDeltaPatches {
 	@SpirePatch(clz = com.megacrit.cardcrawl.vfx.DeathScreenFloatyEffect.class, method = "update")
 	// GridSelectScreen (Tramsform and Upgrade)
 	@SpirePatch(clz = com.megacrit.cardcrawl.screens.select.GridCardSelectScreen.class, method = "update")
+	// Math
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "mouseLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "cardLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "cardScaleLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "uiLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "orbLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "scaleLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "fadeLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "popLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "angleLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "slowColorLerpSnap")
+	@SpirePatch(clz = com.megacrit.cardcrawl.helpers.MathHelper.class, method = "scrollSnapLerpSpeed")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
