@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster.Intent;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.scenes.AbstractScene;
+import com.megacrit.cardcrawl.scenes.TitleCloud;
 import com.megacrit.cardcrawl.ui.DialogWord;
 import com.megacrit.cardcrawl.ui.buttons.CardSelectConfirmButton;
 import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
@@ -142,6 +143,7 @@ public class DefaultDeltaPatches {
 	@SpirePatch(clz = com.megacrit.cardcrawl.scenes.TitleBackground.class, method = "update")
 	@SpirePatch(clz = com.megacrit.cardcrawl.scenes.TitleBackground.class, method = "updateFlame")
 	@SpirePatch(clz = com.megacrit.cardcrawl.scenes.TitleBackground.class, method = "updateDust")
+	@SpirePatch(clz = TitleCloud.class, method = "update")
 	@SpirePatch(clz = com.megacrit.cardcrawl.vfx.scene.LogoFlameEffect.class, method = "update")
 	@SpirePatch(clz = com.megacrit.cardcrawl.vfx.scene.TitleDustEffect.class, method = "update")
 	@SpirePatch(clz = com.megacrit.cardcrawl.ui.panels.RenamePopup.class, method = "update")
