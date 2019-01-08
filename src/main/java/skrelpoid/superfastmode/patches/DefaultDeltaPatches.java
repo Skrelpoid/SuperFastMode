@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.blights.AbstractBlight;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster.Intent;
 import com.megacrit.cardcrawl.powers.AbstractPower;
@@ -19,6 +20,7 @@ import com.megacrit.cardcrawl.ui.panels.BottomBgPanel;
 import com.megacrit.cardcrawl.ui.panels.DiscardPilePanel;
 import com.megacrit.cardcrawl.ui.panels.DrawPilePanel;
 import com.megacrit.cardcrawl.vfx.EnemyTurnEffect;
+import com.megacrit.cardcrawl.vfx.FlameAnimationEffect;
 import com.megacrit.cardcrawl.vfx.FlashPotionEffect;
 import com.megacrit.cardcrawl.vfx.GainPennyEffect;
 import com.megacrit.cardcrawl.vfx.GameDeckGlowEffect;
@@ -252,6 +254,10 @@ public class DefaultDeltaPatches {
 	@SpirePatch(clz = BottomBgPanel.class, method = "updatePositions")
 	@SpirePatch(clz = CardGlowBorder.class, method = "update")
 	@SpirePatch(clz = HealNumberEffect.class, method = "update")
+	@SpirePatch(clz = FlameAnimationEffect.class, method = "update")
+	@SpirePatch(clz = MapRoomNode.class, method = "update")
+	@SpirePatch(clz = MapRoomNode.class, method = "updateEmerald")
+	@SpirePatch(clz = MapRoomNode.class, method = "oscillateColor")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
