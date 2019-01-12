@@ -10,6 +10,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import basemod.BaseMod;
 import basemod.ReflectionHacks;
@@ -97,6 +98,15 @@ public class SuperFastMode {
 
 	public static float getDelta() {
 		return getDelta(Gdx.graphics);
+	}
+	
+	public static void tickDuration(AbstractGameAction a) {
+		float duration = (float) ReflectionHacks.getPrivate(a, AbstractGameAction.class, "duration");
+		duration -= getDelta();
+		ReflectionHacks.setPrivate(a, AbstractGameAction.class, "duration", duration);
+        if (duration < 0.0f) {
+            a.isDone = true;
+        }
 	}
 
 	public static void updateVFX(AbstractGameEffect effect) {
