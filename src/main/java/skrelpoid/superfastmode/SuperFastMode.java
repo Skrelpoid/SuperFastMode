@@ -2,8 +2,10 @@ package skrelpoid.superfastmode;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
@@ -12,6 +14,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+
 import basemod.BaseMod;
 import basemod.ReflectionHacks;
 
@@ -27,7 +30,10 @@ public class SuperFastMode {
 	public static float deltaMultiplier = 2;
 	public static Field deltaField;
 	public static boolean isDeltaMultiplied = true;
+	public static boolean isInstantLerp = true;
 	public static SpireConfig config;
+
+	// TODO UI rendering should not be affected by multiplied delta. WIP
 
 	public static void initialize() {
 		logger.info("Initializing SuperFastMode");
@@ -59,11 +65,13 @@ public class SuperFastMode {
 
 	private static void loadConfig() {
 		isDeltaMultiplied = config.getBool("isDeltaMultiplied");
+		isInstantLerp = config.getBool("isInstantLerp");
 		deltaMultiplier = config.getFloat("deltaMultiplier");
 	}
 
 	public static void writeConfig() {
 		config.setBool("isDeltaMultiplied", isDeltaMultiplied);
+		config.setBool("isInstantLerp", isInstantLerp);
 		config.setFloat("deltaMultiplier", deltaMultiplier);
 	}
 
@@ -107,6 +115,12 @@ public class SuperFastMode {
         if (duration < 0.0f) {
             a.isDone = true;
         }
+	}
+
+	public static void instantLerp(float[] start, float target) {
+		if (isInstantLerp) {
+			start[0] = target;
+		}
 	}
 
 	public static void updateVFX(AbstractGameEffect effect) {

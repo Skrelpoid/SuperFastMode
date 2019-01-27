@@ -39,6 +39,7 @@ import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect;
 import com.megacrit.cardcrawl.vfx.combat.PowerDebuffEffect;
 import com.megacrit.cardcrawl.vfx.combat.PowerIconShowEffect;
 import com.megacrit.cardcrawl.vfx.scene.BottomFogEffect;
+import basemod.animations.SpriterAnimation;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
@@ -258,6 +259,7 @@ public class DefaultDeltaPatches {
 	@SpirePatch(clz = MapRoomNode.class, method = "update")
 	@SpirePatch(clz = MapRoomNode.class, method = "updateEmerald")
 	@SpirePatch(clz = MapRoomNode.class, method = "oscillateColor")
+	@SpirePatch(clz = SpriterAnimation.class, method = "renderSprite")
 	public static class DeltaPatch {
 		public static ExprEditor Instrument() {
 			return new ExprEditor() {
