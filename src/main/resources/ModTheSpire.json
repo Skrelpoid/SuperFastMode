@@ -3,8 +3,8 @@
   "name": "SuperFastMode",
   "author_list": ["Skrelpoid"],
   "description": "Artificially speeds up the Game. Ingame, go to Mods>SuperFastMode>Config to change Settings.",
-  "version": "1.0.4",
-  "sts_version": "12-20-2018",
+  "version": "1.0.5",
+  "sts_version": "01-23-2019",
   "mts_version": "3.6.3",
   "dependencies": ["basemod"],
   "update_json": "https://api.github.com/repos/Skrelpoid/SuperFastMode/releases/latest"
