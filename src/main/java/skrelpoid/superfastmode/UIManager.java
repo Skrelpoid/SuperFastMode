@@ -95,7 +95,7 @@ public class UIManager implements PostInitializeSubscriber {
 	private static ModLabel skipInfo() {
 		final float x = 350;
 		final float y = 650;
-		return new ModLabel("Recommended. If this is turned off,\nthe GUI might glitch out a bit.", x, y,
+		return new ModLabel("Makes many things faster, but they appear choppy.", x, y,
 				FontHelper.tipBodyFont, panel, l -> {});
 	}
 
