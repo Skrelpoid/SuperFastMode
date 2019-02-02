@@ -16,6 +16,13 @@ Copy the SuperFastMode.jar file into the mods folder too. Then, start up ModTheS
 
 Enjoy your new lightning fast experience!
 
+## Compatibility with other mods
+Because SuperFastMode speeds up the game by means of patching the engine, other mods get sped up too.
+This is good if the other mod does not depend on an accurate time difference between frames.
+However if the other mods need this, e.g. to calculate when 5 minutes are over, this will screw up the measurement
+For this, the other mods should use `Gdx.graphics.getRawDeltaTime()` instead of `Gdx.graphics.getDeltaTime()`.
+The implementation is exactly the same (it just returns the graphics object's `deltaTime` field, but this method won't be patched by SuperFastMode
+
 ## Building (only important for Modders)
 This Mod uses Gradle for building. After making changes, you can double click buildMod.cmd 
 (or run ./gradlew build or gradlew build in a console) to 

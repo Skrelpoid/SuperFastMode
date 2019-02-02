@@ -22,17 +22,4 @@ public class LwjglGraphicsPatches {
 		}
 	}
 
-	@SpirePatch(clz = com.badlogic.gdx.backends.lwjgl.LwjglGraphics.class, method = "getRawDeltaTime")
-	public static class RawDeltaPatch {
-		public static ExprEditor Instrument() {
-			return new ExprEditor() {
-				@Override
-				public void edit(FieldAccess f) throws CannotCompileException {
-					if (f.getFieldName().equals("deltaTime")) {
-						f.replace("{ $_ = skrelpoid.superfastmode.SuperFastMode.getMultDelta($0); }");
-					}
-				}
-			};
-		}
-	}
 }
