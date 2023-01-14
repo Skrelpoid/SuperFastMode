@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglGraphics;
 import com.badlogic.gdx.graphics.Color;
+import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -43,6 +44,9 @@ public class SuperFastMode {
 			initConfig();
 			loadConfig();
 			deltaField = LwjglGraphics.class.getDeclaredField("deltaTime");
+			if (Loader.LWJGL3_ENABLED) {
+			    deltaField = Class.forName("com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics").getDeclaredField("deltaTime");
+			}
 			deltaField.setAccessible(true);
 		} catch (Exception ex) {
 			logger.catching(ex);
@@ -94,6 +98,16 @@ public class SuperFastMode {
 		return Math.min(max, getDelta());
 	}
 
+	/**
+	 * This is the so called Raw Delta Time, or delta time before multiplying.
+	 * This is because we get the value from the deltaTime Field of the graphics object.
+	 * We patch the getDeltaTime of Graphics to override that logic to always be multiplied.
+	 * This method gets called by the game. The internal field is an implementation detail we use to 
+	 * have both the modified and the unmodified delta
+	 * 
+	 * @param graphics The Graphics object to get the delta from
+	 * @return the unmodified delta time
+	 */
 	public static float getDelta(Graphics graphics) {
 		float delta = 0.016f;
 		try {
